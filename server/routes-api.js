@@ -1,0 +1,70 @@
+const router = require("express").Router();
+const bodyParser = require("body-parser");
+const morgan = require("morgan");
+
+const model = require("./model");
+const utils = require("./utils");
+
+router.use(bodyParser.json());
+router.use(bodyParser.urlencoded({ extended: false }));
+router.use(morgan("dev")); // for dev logging
+
+router.get("/verify/:code", model.verifyEmail);
+
+// Logging UI errors
+router.post("/error", (req, res) => {
+	console.error({ browserError: req.body });
+	res.send();
+});
+
+router.use(utils.csrfValidator);
+
+router.post("/signup", utils.rateLimit({ windowMs: 30, max: 2, skipFailedRequests: true }), model.signUp);
+router.post("/login", utils.rateLimit({ max: 5 }), model.logIn);
+router.post("/reset", utils.rateLimit({ max: 5 }), model.resetPassword);
+router.post("/resend", utils.rateLimit({ max: 1 }), model.resendEmailVerification);
+
+router.post("/channels/subscribe", utils.rateLimit({ max: 25 }), model.subscribeChannel);
+router.post("/channels/unsubscribe", model.unsubscribeChannel);
+router.post("/devices", model.updateDevice);
+router.get("/device", model.getDeviceDetails);
+
+router.use(["/me", "/pull/*", "/push/*"], utils.attachUsertoRequestFromAPIKey);
+router.use(utils.isUserAuthed);
+
+router.get("/me", model.me);
+router.put("/account", model.updateAccount);
+router.put("/channels/save", model.saveChannel);
+router.put("/channels/unsave", model.unsaveChannel);
+
+router.post("/key", model.newApiKey);
+router.delete("/key/:key", model.deleteApiKey);
+
+router.get("/pull/:channel", utils.rateLimit({ max: 25, keyGenerator: (req) => req.user._id }), model.pull);
+router.post("/push/:channel", model.push);
+
+router.post("/logout", model.logOut);
+
+/**
+ * API endpoints common error handling middleware
+ */
+router.use(["/:404", "/"], (req, res) => {
+	res.status(404).json({ message: "ROUTE_NOT_FOUND" });
+});
+
+// Handle the known errors
+router.use((err, req, res, next) => {
+	if (err.httpErrorCode) {
+		res.status(err.httpErrorCode).json({ message: err.message || "Something went wrong" });
+	} else {
+		next(err);
+	}
+});
+
+// Handle the unknown errors
+router.use((err, req, res) => {
+	console.error(err);
+	res.status(500).json({ message: "Something went wrong" });
+});
+
+module.exports = router;

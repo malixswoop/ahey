@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+	<%- include('partials/html-head'); -%>
+	<body onload="App.getDevice()">
+		<div id="app" class="wrap">
+			<%- include('partials/header'); -%>
+			<h1 class="page-title flex-1">Channels</h1>
+			<p>List of all the channels subscribed from this browser / device.</p>
+
+			<section id="addURL" v-if="showAdd">
+				<div class="flex">
+					<input
+						type="url"
+						class="flex-1"
+						v-model="addURL"
+						placeholder="Enter feed URL"
+						v-on:keyup.enter="subscribeChannel"
+					/>
+					<button v-on:click="subscribeChannel" v-bind:disabled="isSaving">+ Add</button>
+				</div>
+			</section>
+			<section>
+				<div v-for="(channel, i) in channels" v-bind:key="channel._id" class="item">
+					<div class="row">
+						<div class="link">
+							<a v-bind:href="'/channel/'+channel._id" class="title" rel="noopener noreferrer">{{channel.title}}</a>
+							<div class="meta light">
+								<img v-if="channel.imageURL" v-bind:src="channel.imageURL" v-bind:alt="channel.title" />
+								<span>Fetched {{displayDate(channel.lastFetchedOn)}}</span>
+								<span> &middot; </span>
+								<a href="javascript:void(0)" v-on:click="unsubscribeChannel(channel._id)">Remove</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<p v-if="channels.length === 0 && !isLoading" class="empty">You are not subscribed to any channels</p>
+				<div v-if="isLoading" class="loader"></div>
+			</section>
+			<%- include('partials/footer'); -%>
+		</div>
+	</body>
+</html>

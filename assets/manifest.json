@@ -1,0 +1,28 @@
+{
+	"name": "Ahey",
+	"short_name": "Ahey",
+	"description": "A simple pub-sub over web push",
+	"icons": [
+		{
+			"src": "icon.png",
+			"sizes": "512x512",
+			"type": "image/png",
+			"purpose": "any"
+		},
+		{
+			"src": "icon-maskable.png",
+			"sizes": "512x512",
+			"type": "image/png",
+			"purpose": "maskable"
+		},
+		{
+			"src": "favicon.svg",
+			"sizes": "any"
+		}
+	],
+	"theme_color": "#FF5C33",
+	"background_color": "#fff",
+	"display": "standalone",
+	"start_url": "/",
+	"permissions": []
+}

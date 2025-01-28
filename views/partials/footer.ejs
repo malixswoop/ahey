@@ -1,0 +1,19 @@
+<footer class="small light wrap">
+	<% if (typeof user !== 'undefined'){ %>
+	<nav>
+		<span>Logged in as </span>
+		<a href="/account"><%= user.username %></a>
+		<span class="separator">&middot;</span>
+		<a href="javascript:void(0)" class="red" v-on:click="logOut()">logout</a>
+	</nav>
+	<% } %>
+	<nav>
+		<a href="/faq">FAQ</a>
+		<span class="separator">&middot;</span>
+		<a href="/pricing">Pricing</a>
+		<span class="separator">&middot;</span>
+		<a href="/terms">Terms</a>
+		<span class="separator">&middot;</span>
+		<a href="/privacy">Privacy</a>
+	</nav>
+</footer>

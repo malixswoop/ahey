@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+	<%- include('partials/html-head'); -%>
+	<body onload="App.getMe('?apiKeys=true')">
+		<div id="app" class="wrap">
+			<%- include('partials/header'); -%>
+			<h1 class="page-title">My account</h1>
+
+			<section>
+				<div class="large">User channel: <a :href="`/@${myAccount.username}`">@{{myAccount.username}}</a></div>
+				<div class="small light">Note: Only you have access to send pushes to your user channel.</div>
+			</section>
+
+			<section class="box">
+				<div class="box-title">Saved channels</div>
+				<div class="box-inner">
+					<div v-if="me.savedChannels.length <= 1" class="small light">You do not have any saved channels yet.</div>
+					<div v-for="(channel, i) in (me.savedChannels ?? [])" v-bind:key="channel" class="item">
+						<div class="row">
+							<span>{{channel}}</span>
+							<span> &middot; </span>
+							<a href="javascript:void(0)" v-on:click="unsaveChannel(channel)">Unsave</a>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<section class="box">
+				<div class="box-title">API keys</div>
+				<div class="box-inner">
+					<div v-for="(key, i) in (me.apiKeys ?? [])" v-bind:key="key" class="item">
+						<div class="row">
+							<span>{{key}}</span>
+							<span> &middot; </span>
+							<a href="javascript:void(0)" v-on:click="deleteAPIKey(key)">Delete</a>
+						</div>
+					</div>
+					<button class="bold" v-on:click="generateAPIKey" v-bind:disabled="isSaving">Generate new API Key</button>
+				</div>
+				<div class="box-footer">
+					<a href="https://github.com/vasanthv/ahey" target="_blank">API Documentation</a>
+				</div>
+			</section>
+
+			<section class="box">
+				<div class="box-title">Account details</div>
+				<div class="box-inner">
+					<label for="email">Your e-mail address</label>
+					<input
+						type="email"
+						id="email"
+						placeholder="Email address"
+						v-model="myAccount.email"
+						v-bind:class="!myAccount.isEmailVerified ? 'hasHelperText':''"
+					/>
+					<div v-if="!myAccount.isEmailVerified">
+						<a href="javascript:void(0)" v-on:click="resendVerification">&orarr; Resend verification</a>
+					</div>
+
+					<label for="password">Password</label>
+					<input type="password" id="password" placeholder="Enter new password" v-model="myAccount.password" />
+
+					<button class="bold" v-on:click="updateAccount">Update account</button>
+				</div>
+			</section>
+		</div>
+		<%- include('partials/footer'); -%>
+	</body>
+</html>
