@@ -2,9 +2,7 @@
 	<% if (typeof user !== 'undefined'){ %>
 	<nav>
 		<span>Logged in as </span>
-		<a href="/account"><%= user.username %></a>
-		<span class="separator">&middot;</span>
-		<a href="javascript:void(0)" class="red" v-on:click="logOut()">logout</a>
+		<a href="/" class="bold"><%= user.username %></a>
 	</nav>
 	<% } %>
 	<nav>

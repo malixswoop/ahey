@@ -16,7 +16,7 @@ module.exports = {
 	TEST_PUSH_PAYLOAD: "test-push",
 	PUSH_OPTIONS: {
 		vapidDetails: {
-			subject: `mailto:${process.env.CONTACT_EMAIL ?? "hello@webtag.io"}`,
+			subject: `mailto:${process.env.CONTACT_EMAIL ?? "hello@ahey.io"}`,
 			publicKey: process.env.VAPID_PUBLIC_KEY,
 			privateKey: process.env.VAPID_PRIVATE_KEY,
 		},

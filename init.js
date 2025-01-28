@@ -10,6 +10,10 @@ const middlewares = require("./server/middlewares");
 app.set("view engine", "ejs");
 
 // Serve vue.js, page.js & axios to the browser
+app.use(express.static(path.join(__dirname, "node_modules/linkifyjs/dist/")));
+app.use(express.static(path.join(__dirname, "node_modules/linkify-html/dist/")));
+app.use(express.static(path.join(__dirname, "node_modules/linkify-plugin-mention/dist/")));
+app.use(express.static(path.join(__dirname, "node_modules/linkify-plugin-hashtag/dist/")));
 app.use(express.static(path.join(__dirname, "node_modules/axios/dist/")));
 app.use(express.static(path.join(__dirname, "node_modules/vue/dist/")));
 

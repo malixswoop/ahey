@@ -11,18 +11,4 @@ if (process.env.NODE_ENV === "production") {
 	fs.writeFileSync(path.join(__dirname, "../assets/sw.js"), newServiceWorkerContents);
 
 	console.log("Service worker file updated to version", VERSION);
-
-	if (process.env.ANALYTICS_SCRIPT) {
-		console.log("Inserting Analytics script tag");
-
-		const scriptTag = `<script async defer src="${process.env.ANALYTICS_SCRIPT}"></script>`;
-
-		const filesToBeTracked = ["../views/partials/footer.ejs"];
-
-		filesToBeTracked.forEach((file) => {
-			const fileContents = fs.readFileSync(path.join(__dirname, file)).toString();
-			const newFileContents = fileContents.replace("<!-- INSERT_ANALYTICS_SCRIPT -->", scriptTag);
-			fs.writeFileSync(path.join(__dirname, file), newFileContents);
-		});
-	}
 }

@@ -26,7 +26,7 @@ const getValidUsername = (username) => {
  */
 const getValidChannelName = (channel) => {
 	if (!channel) return httpError(400, "Invalid channel");
-	const channelRegex = /^([a-zA-Z0-9-]){1,36}$/;
+	const channelRegex = /^([a-zA-Z0-9@-]){1,36}$/;
 	if (!channelRegex.test(channel)) return httpError(400, "Invalid channel. Max. 36 alphanumeric chars & -.");
 	return channel.toLowerCase();
 };
@@ -121,6 +121,17 @@ const getValidPassword = (password) => {
 	if (!password) return httpError(400, "Invalid password");
 	if (password.length < 8) return httpError(400, "Password length should be atleast 8 characters");
 	return hashString(password);
+};
+
+/**
+ * Returns a valid push body text
+ * @param  {string} body - body of the push message
+ * @return {string} Valid trimmed body
+ */
+const getValidPushBody = (body) => {
+	if (!body) return httpError(400, "Empty body");
+	if (body.length > 160) sanitizeText(body.substring(0, 160));
+	return sanitizeText(body);
 };
 
 /**
@@ -329,6 +340,7 @@ module.exports = {
 	sanitizeText,
 	hashString,
 	getValidPassword,
+	getValidPushBody,
 	httpError,
 	attachUsertoRequest,
 	attachUsertoRequestFromAPIKey,

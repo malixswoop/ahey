@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+	<%- include('partials/html-head'); -%>
+	<body onload="App.pull('<%=channel%>')">
+		<div id="app" class="wrap" v-cloak>
+			<%- include('partials/header'); -%>
+			<h1 class="page-title flex-1"><% if(!channel.startsWith("@")) { %>#<%}%><%=channel%></h1>
+
+			<section>
+				<input
+					type="text"
+					id="pushBox"
+					v-model="pushBody"
+					placeholder="Push something to this channel"
+					v-on:keyup.enter="push('<%=channel%>', pushBody)"
+				/>
+				<button v-on:click="push('<%=channel%>', pushBody)" v-bind:disabled="isSaving" v-if="pushBody.length > 0">
+					Push
+				</button>
+			</section>
+			<section>
+				<div v-for="(push, i) in pushes" v-bind:key="push._id" class="item">
+					<div class="row">
+						<div class="small">
+							<a :href="'/@'+push.from.username">@{{push.from.username}}</a>
+							<span> &middot; </span>
+							<span>{{displayDate(push.date)}}</span>
+						</div>
+						<div class="large" v-html="linkify(push.body)"></div>
+					</div>
+				</div>
+				<div v-if="isLoading" class="loader"></div>
+			</section>
+			<%- include('partials/footer'); -%>
+		</div>
+	</body>
+</html>

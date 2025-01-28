@@ -4,12 +4,14 @@ const morgan = require("morgan");
 
 const model = require("./model");
 const utils = require("./utils");
+const config = require("./config");
 
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({ extended: false }));
 router.use(morgan("dev")); // for dev logging
 
 router.get("/verify/:code", model.verifyEmail);
+router.get("/meta", (req, res) => res.json({ vapidKey: config.PUSH_OPTIONS.vapidDetails.publicKey }));
 
 // Logging UI errors
 router.post("/error", (req, res) => {
@@ -26,7 +28,7 @@ router.post("/resend", utils.rateLimit({ max: 1 }), model.resendEmailVerificatio
 
 router.post("/channels/subscribe", utils.rateLimit({ max: 25 }), model.subscribeChannel);
 router.post("/channels/unsubscribe", model.unsubscribeChannel);
-router.post("/devices", model.updateDevice);
+router.post("/device", model.updateDevice);
 router.get("/device", model.getDeviceDetails);
 
 router.use(["/me", "/pull/*", "/push/*"], utils.attachUsertoRequestFromAPIKey);

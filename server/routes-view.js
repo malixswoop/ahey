@@ -35,36 +35,6 @@ router.get("/channels", async (req, res) => {
 	res.render("channels", getViewProps(req, "Channels - Ahey"));
 });
 
-router.get("/channel/:id", async (req, res) => {
-	const channel = await Channels.findOne({ _id: req.params.id });
-	if (!channel) return res.render("404", getViewProps(req, "Page not found - Ahey"));
-
-	req.page = "channel";
-	res.render("channel", { ...getViewProps(req, channel.title + " - Ahey"), channel });
-});
-
-router.get("/saved", async (req, res) => {
-	if (!req.user) res.redirect(`/login?state=${req.path}`);
-	res.render("saved", getViewProps(req, "Saved items - Ahey"));
-});
-
-router.get("/item/:id", async (req, res) => {
-	const item = await Items.findOne({ _id: req.params.id }).populate("channel", "link feedURL title imageURL").exec();
-	if (!item) return res.render("404", getViewProps(req, "Page not found - Ahey"));
-
-	res.render("item", { ...getViewProps(req, `${item.title} - Ahey`), item });
-});
-
-router.get("/account", async (req, res) => {
-	if (!req.user) res.redirect(`/login?state=${req.path}`);
-	res.render("account", getViewProps(req, "Account - Ahey"));
-});
-
-router.get("/api-keys", async (req, res) => {
-	if (!req.user) res.redirect(`/login?state=${req.path}`);
-	res.render("api-keys", getViewProps(req, "API Keys - Ahey"));
-});
-
 router.get("/terms", async (req, res) => {
 	res.render("terms", getViewProps(req, "Terms of service - Ahey"));
 });
@@ -83,6 +53,10 @@ router.get("/privacy", async (req, res) => {
 
 router.get("/pricing", async (req, res) => {
 	res.render("pricing", getViewProps(req, "Pricing - Ahey"));
+});
+
+router.get("/:channel", async (req, res) => {
+	res.render("channel", { ...getViewProps(req, "Channel - Ahey"), channel: req.params.channel });
 });
 
 router.get("/*", async (req, res) => {

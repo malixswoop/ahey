@@ -278,28 +278,19 @@ const push = async (req, res, next) => {
 		if (req.user.emailVerificationCode) {
 			return utils.httpError(400, "Please verify your email.");
 		}
-		const body = req.body.body;
+		const body = utils.getValidPushBody(req.body.body);
 		const date = new Date();
 
 		const channel = utils.getValidChannelName(req.params.channel);
 
-		if (utils.isUserChannel && req.user.username !== channel.substr(1)) {
+		if (utils.isUserChannel(channel) && req.user.username !== channel.substring(1)) {
 			return utils.httpError(401, "Unauthorized");
 		}
 
-		const _newPush = {
-			from: req.user._id,
-			channel,
-			text: body,
-			date,
-		};
-
-		if (link) _newPush["link"] = link;
-
-		await new Pushes(_newPush);
+		await new Pushes({ from: req.user._id, channel, body, date }).save();
 
 		const subscribers = await Devices.find({ subscribedChannels: channel }).select("pushCredentials").exec();
-		const payload = utils.getWebPushPayload(req.user, body, channel, link);
+		const payload = utils.getWebPushPayload(req.user, body, channel);
 
 		utils.sendPushNotificationToSubscribers(subscribers, payload);
 

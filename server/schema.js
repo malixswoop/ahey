@@ -55,8 +55,7 @@ module.exports = (() => {
 		const pushSchema = new Schema({
 			from: { type: Schema.Types.ObjectId, ref: "Users", index: true },
 			channel: { type: String, index: true },
-			text: String,
-			link: String,
+			body: String,
 			date: { type: Date, default: Date.now, expires: 86400 },
 		});
 

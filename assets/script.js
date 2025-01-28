@@ -1,5 +1,16 @@
 /* global axios, Vue, cabin */
 
+let swReg = null;
+const urlB64ToUint8Array = (base64String) => {
+	const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
+	const base64 = (base64String + padding).replace(/-/g, "+").replace(/_/g, "/");
+	const rawData = window.atob(base64);
+	const outputArray = new Uint8Array(rawData.length);
+	for (let i = 0; i < rawData.length; ++i) {
+		outputArray[i] = rawData.charCodeAt(i);
+	}
+	return outputArray;
+};
 function getMeta(metaName) {
 	const metas = document.getElementsByTagName("meta");
 	for (let i = 0; i < metas.length; i++) {
@@ -17,7 +28,14 @@ function redirect(path, replace = false) {
 
 const initServiceWorker = async () => {
 	if ("serviceWorker" in navigator) {
-		await navigator.serviceWorker.register("/sw.js");
+		swReg = await navigator.serviceWorker.register("/sw.js");
+		navigator.serviceWorker.addEventListener("message", (event) => {
+			if (!event.data.action) return;
+			switch (event.data.action) {
+				default:
+					break;
+			}
+		});
 	}
 };
 
@@ -25,7 +43,7 @@ const defaultState = function () {
 	const searchParams = new URLSearchParams(window.location.search);
 	const page = getMeta("ahey-page");
 	const username = getMeta("ahey-username");
-	const channelId = getMeta("ahey-channel");
+	const channel = getMeta("ahey-channel");
 	const query = searchParams.get("q");
 
 	return {
@@ -38,11 +56,12 @@ const defaultState = function () {
 		newAccount: { username: "", email: "", password: "" },
 		authCreds: { username: "", password: "" },
 		username,
-		channelId,
+		channel,
 		me: { username: "", email: "", password: "", savedChannels: [] },
 		pushes: [],
+		channelSubscribersCount: 0,
 		channels: [],
-		addURL: "",
+		pushBody: "",
 		myAccount: {},
 		query,
 		showSearch: !!query,
@@ -130,22 +149,54 @@ const App = Vue.createApp({
 				this.setToast(response.data.message, "success");
 			});
 		},
+		async subscribeToPush() {
+			if (swReg) {
+				try {
+					const vapidKey = (await axios.get("/api/meta")).data.vapidKey;
+					if (vapidKey) {
+						const pushSubscription = await swReg.pushManager.subscribe({
+							userVisibleOnly: true,
+							applicationServerKey: urlB64ToUint8Array(vapidKey),
+						});
+						const credentials = JSON.parse(JSON.stringify(pushSubscription));
+						await axios.post("/api/device", { credentials });
+						window.localStorage.pushSubscribed = true;
+						this.pushSubscribed = true;
+					}
+					return true;
+				} catch (err) {
+					console.log(err);
+					if (this.page === "home") {
+						this.setToast("Unable to enable notification, please try again.", "error");
+					}
+					return false;
+				}
+			}
+		},
+		getDevice() {
+			axios.get("/api/device").then((response) => {
+				console.log(response);
+			});
+		},
 		push(channel, body) {
-			axios.post(`/api/push/${channel}`, body).then((response) => {
+			axios.post(`/api/push/${channel}`, { body }).then((response) => {
 				this.setToast(response.data.message, "success");
 				this.pushes = [];
+				this.channelSubscribersCount = 0;
 				this.pull(channel);
 			});
 		},
 		pull(channel) {
 			this.isLoading = true;
+			const params = {};
 			if (this.pushes.length > 0) params["skip"] = this.pushes.length;
 			axios
 				.get(`/api/pull/${channel}`, { params })
 				.then((response) => {
 					if (response.data.pushes.length > 0) {
-						response.data.pushes.forEach((m) => this.items.push(m));
+						response.data.pushes.forEach((m) => this.pushes.push(m));
 					}
+					this.channelSubscribersCount = response.data.subscribers;
 					this.showLoadMore = response.data.pushes.length == 50;
 				})
 				.finally(() => (this.isLoading = false));
@@ -207,6 +258,17 @@ const App = Vue.createApp({
 			interval = seconds / 60;
 			if (interval > 1) return agoString(Math.floor(interval), "minute");
 			return "now";
+		},
+		linkify: function (str) {
+			if (!str) return "";
+			return linkifyHtml(str, {
+				attributes: { rel: "noopener noreferrer" },
+				target: { url: "_blank" },
+				formatHref: {
+					mention: (href) => `@${href.substring(1)}`,
+					hashtag: (href) => href.substring(1),
+				},
+			});
 		},
 		logOut(autoSignOut) {
 			const localClear = () => {

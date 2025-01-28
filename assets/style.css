@@ -1,6 +1,6 @@
 :root {
 	--background: #ffffff;
-	--background-grey: #d9d9d9;
+	--background-grey: #e9e9e9;
 	--text: #161616;
 	--grey: #454545;
 	--red: #c0392b;
@@ -77,6 +77,9 @@ input[type="file"] {
 ::placeholder {
 	color: var(--text);
 	opacity: 0.5;
+}
+[v-cloak] {
+	display: none;
 }
 select {
 	appearance: none;
@@ -306,18 +309,6 @@ article pre {
 #toast.success {
 	background: var(--green);
 }
-#search input {
-	max-width: 100%;
-}
-#search button {
-	margin-left: 0.5rem;
-}
-#intro .wrap {
-	margin-top: 10vh;
-}
-#intro input {
-	margin-right: 0.5rem;
-}
 #logo {
 	display: block;
 	width: 2.5rem;
@@ -334,44 +325,11 @@ article pre {
 	width: 100%;
 	height: 100%;
 }
-#titleBar > button {
-	margin-left: 1rem;
-}
-#channelMeta .title {
-	font-size: 1.5rem;
-}
-#channelMeta > .flex {
-	align-items: flex-start;
-}
-#channelMeta img {
-	margin-right: 1rem;
-	position: relative;
-	top: 0.5rem;
-	width: 3rem;
-}
-#addURL input {
-	margin-right: 0.25rem;
-	margin-bottom: 0px;
+#pushBox {
+	border: none;
 	max-width: none;
-}
-#addURL button {
-	margin-bottom: 0px;
-}
-#feed .item .title:visited {
-	color: var(--grey);
-}
-#screenshots {
-	display: grid;
-	grid-template-columns: 1fr 1fr;
-	gap: 1rem;
-}
-#screenshots img {
-	width: 100%;
-	border: 1px solid var(--background-grey);
-	border-radius: 0.5rem;
-	aspect-ratio: 1/1;
-	object-fit: cover;
-	object-position: top;
+	font-size: 1.5rem;
+	background: var(--background-grey);
 }
 .loader {
 	width: 2rem;
