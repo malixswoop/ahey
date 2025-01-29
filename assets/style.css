@@ -192,6 +192,9 @@ article pre {
 	display: flex;
 	align-items: center;
 }
+.flex > button {
+	margin-left: 1rem;
+}
 .space-between {
 	justify-content: space-between;
 }
@@ -333,11 +336,6 @@ article pre {
 	background: var(--background-grey);
 }
 #channelBox {
-	border: none;
-	padding: 0px;
-	margin: 0px;
-	outline: none;
-	width: 36ch;
 }
 .loader {
 	width: 2rem;

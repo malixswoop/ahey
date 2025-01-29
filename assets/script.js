@@ -217,11 +217,13 @@ const App = Vue.createApp({
 		subscribeChannel(channel) {
 			axios.post("/api/channels/subscribe", { channel }).then((response) => {
 				this.setToast(response.data.message, "success");
+				this.getDevice();
 			});
 		},
 		unsubscribeChannel(channel) {
 			axios.post("/api/channels/unsubscribe", { channel }).then((response) => {
 				this.setToast(response.data.message, "success");
+				this.getDevice();
 			});
 		},
 		generateAPIKey() {

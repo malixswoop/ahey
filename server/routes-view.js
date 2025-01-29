@@ -56,7 +56,7 @@ router.get("/pricing", async (req, res) => {
 });
 
 router.get("/:channel", async (req, res) => {
-	res.render("channel", { ...getViewProps(req, "Channel - Ahey"), channel: req.params.channel });
+	res.render("channel", { ...getViewProps(req, `${req.params.channel} - Ahey`), channel: req.params.channel });
 });
 
 router.get("/*", async (req, res) => {

@@ -7,6 +7,19 @@
 			<h1 class="page-title flex-1">Channels</h1>
 			<p>List of all the channels subscribed from this browser / device.</p>
 
+			<section class="flex">
+				<input
+					type="text"
+					class="flex-1"
+					id="channelBox"
+					v-model="channelName"
+					placeholder="Channel name"
+					v-on:keyup.enter="subscribeChannel(channelName)"
+				/>
+
+				<button v-on:click="subscribeChannel(channelName)">Subscribe</button>
+			</section>
+
 			<section>
 				<div v-for="(channel, i) in channels" v-bind:key="channel" class="item">
 					<div class="row">
@@ -17,24 +30,12 @@
 						</span>
 					</div>
 				</div>
-				<p v-if="channels.length === 0 && !isLoading" class="empty">You are not subscribed to any channels</p>
 				<div v-if="isLoading" class="loader"></div>
 			</section>
 
-			<section class="flex">
-				<input
-					type="text"
-					id="channelBox"
-					v-model="channelName"
-					placeholder="Channel name"
-					v-on:keyup.enter="subscribeChannel(channelName)"
-				/>
-
-				<a href="javascript:void(0)" v-on:click="subscribeChannel(channelName)" v-if="channelName.length > 0">
-					Subscribe
-				</a>
+			<section v-if="channels.length === 0 && !isLoading">
+				<p class="empty">You are not subscribed to any channels</p>
 			</section>
-
 			<%- include('partials/footer'); -%>
 		</div>
 	</body>
