@@ -99,22 +99,17 @@ const App = Vue.createApp({
 				}
 			}, 3500);
 		},
-		userEvent(event) {
-			if (cabin) cabin.event(event);
-		},
 		signUp() {
 			if (!this.newAccount.username || !this.newAccount.email || !this.newAccount.password) {
 				return this.setToast("All fields are mandatory");
 			}
 			axios.post("/api/signup", this.newAccount).then(this.authenticate);
-			this.userEvent("signup");
 		},
 		signIn() {
 			if (!this.authCreds.username || !this.authCreds.password) {
 				return this.setToast("Please enter valid details");
 			}
 			axios.post("/api/login", this.authCreds).then(this.authenticate);
-			this.userEvent("login");
 		},
 		forgotPassword() {
 			if (!this.authCreds.username) {
@@ -183,12 +178,17 @@ const App = Vue.createApp({
 				.finally(() => (this.isLoading = false));
 		},
 		push(channel, body) {
-			axios.post(`/api/push/${channel}`, { body }).then((response) => {
-				this.setToast(response.data.message, "success");
-				this.pushes = [];
-				this.channelSubscribersCount = 0;
-				this.pull(channel);
-			});
+			this.isSaving = true;
+			axios
+				.post(`/api/push/${channel}`, { body })
+				.then((response) => {
+					this.setToast(response.data.message, "success");
+					this.pushBody = "";
+					this.pushes = [];
+					this.channelSubscribersCount = 0;
+					this.pull(channel);
+				})
+				.finally(() => (this.isSaving = false));
 		},
 		pull(channel) {
 			this.isLoading = true;
@@ -246,11 +246,6 @@ const App = Vue.createApp({
 					this.getMe("?apiKeys=true");
 				});
 			}
-		},
-		displayURL(_url) {
-			let url = _url.replace(/^https?:\/\//i, "");
-			url = url.length > 30 ? `${url.substr(0, 30)}...` : url;
-			return url;
 		},
 		displayDate(datestring) {
 			const seconds = Math.floor((new Date() - new Date(datestring)) / 1000);

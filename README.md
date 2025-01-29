@@ -104,28 +104,58 @@ To interact with the API and publish to a channel, you must log in and obtain an
       -H "X-API-KEY: your-api-key"
   ```
 
-## Local development
+  Sure! Here's the updated local development section in markdown format:
 
-Clone the repository:
+## Local Development
+
+To get started with Ahey locally, follow these steps:
+
+### 1. Clone the repository
+
+Start by cloning the Ahey repository to your local machine:
 
 ```bash
 git clone https://github.com/vasanthv/ahey.git
 cd ahey
 ```
 
-Install dependencies (if applicable):
+### 2. Install dependencies
+
+Install the necessary dependencies for the project, including the MongoDB package:
 
 ```bash
 npm install
 ```
 
-Run the service (you may need to adjust for your environment):
+Make sure you have MongoDB running locally or use a MongoDB cloud service like [MongoDB Atlas](https://www.mongodb.com/cloud/atlas).
+
+### 3. Generate VAPID credentials
+
+Run the following command to generate your VAPID credentials, which are required for push notifications:
+
+```bash
+npm run gen:vapid
+```
+
+Make sure to store the generated credentials safely, as you'll need them for production.
+
+### 4. Configure
+
+Update the `server/config.js` file with your MongoDB connection string & vapid details.
+
+- Open `server/config.js` in the root directory.
+- Update the `MONGODB_URI` variable with your local MongoDB URI or connection string from MongoDB Atlas.
+- Update your vapid details.
+
+### 5. Start the development server
+
+Launch the development server with:
 
 ```bash
 npm start
 ```
 
-to start the development server on port 3000. Your Ahey instance will be running on http://localhost:3000.
+By default, the server will run on [http://localhost:3000](http://localhost:3000). You can now access your local instance of Ahey!
 
 ## Contributing
 

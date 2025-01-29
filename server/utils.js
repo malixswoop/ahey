@@ -335,6 +335,28 @@ const sendPushNotificationToSubscribers = async (devices, payload) => {
 		return false;
 	}
 };
+
+/**
+ *
+ * Returns the props that needs to be passed to the view template
+ * @param  {object}   req    - Express.js Request object. https://expressjs.com/en/5x/api.html#req
+ * @param  {string}   title  - String title to be used for the view
+ * @return {object}
+ */
+const getViewProps = (req, title) => {
+	let page = req.page ?? req.path.substr(1);
+	if (!page) {
+		page = req.user ? "account" : "intro";
+		title = title ?? (req.user ? "Ahey" : "Ahey - A simple pub-sub over web push");
+	}
+
+	return {
+		page,
+		title,
+		user: req.user,
+		csrfToken: req.csrfToken,
+	};
+};
 module.exports = {
 	getValidUsername,
 	getValidChannelName,
@@ -360,4 +382,5 @@ module.exports = {
 	getWebPushPayload,
 	sendWebPush,
 	sendPushNotificationToSubscribers,
+	getViewProps,
 };

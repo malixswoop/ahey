@@ -21,4 +21,12 @@ module.exports = {
 			privateKey: process.env.VAPID_PRIVATE_KEY,
 		},
 	},
+	VIEW_CONFIG: {
+		"/login": "Log in",
+		"/signup": "Create an account",
+		"/channels": "Channels",
+		"/terms": "Terms of service",
+		"/privacy": "Privacy policy",
+		"/faq": "Frequently asked questions",
+	},
 };
