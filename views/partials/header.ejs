@@ -3,7 +3,7 @@
 	<div class="flex">
 		<div class="flex-1"></div>
 		<div id="logo">
-			<a href="/channels">
+			<a href="/">
 				<svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
 					<path
 						d="M78 38L72.4 20.88L49.04 28.48V3.83997H30.96V28.48L7.6 20.88L2 38L25.44 45.6L10.96 65.6L25.52 76.16L40 56.24L54.48 76.16L69.04 65.6L54.56 45.6L78 38Z"
@@ -13,9 +13,15 @@
 			</a>
 		</div>
 	</div>
-	<% if(page !== "intro" && page !== "account") { %>
+	<% if(page !== "intro") { %>
 	<nav>
-		<a href="/">← Back to home</a>
+		<a href="/">Home</a>
+		<span class="separator">&middot;</span>
+		<a href="/channels">Channels</a>
+		<% if(typeof user !== "undefined") { %>
+		<span class="separator">&middot;</span>
+		<a href="/@<%= user.username %>">@<%= user.username %></a>
+		<% } %>
 	</nav>
 	<% } %>
 </header>

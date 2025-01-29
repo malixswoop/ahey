@@ -26,12 +26,14 @@ router.post("/login", utils.rateLimit({ max: 5 }), model.logIn);
 router.post("/reset", utils.rateLimit({ max: 5 }), model.resetPassword);
 router.post("/resend", utils.rateLimit({ max: 1 }), model.resendEmailVerification);
 
+router.use(["/me", "/push/*"], utils.attachUsertoRequestFromAPIKey);
+
 router.post("/channels/subscribe", utils.rateLimit({ max: 25 }), model.subscribeChannel);
 router.post("/channels/unsubscribe", model.unsubscribeChannel);
 router.post("/device", model.updateDevice);
 router.get("/device", model.getDeviceDetails);
+router.get("/pull/:channel", model.pull);
 
-router.use(["/me", "/pull/*", "/push/*"], utils.attachUsertoRequestFromAPIKey);
 router.use(utils.isUserAuthed);
 
 router.get("/me", model.me);
@@ -42,8 +44,7 @@ router.put("/channels/unsave", model.unsaveChannel);
 router.post("/key", model.newApiKey);
 router.delete("/key/:key", model.deleteApiKey);
 
-router.get("/pull/:channel", utils.rateLimit({ max: 25, keyGenerator: (req) => req.user._id }), model.pull);
-router.post("/push/:channel", model.push);
+router.post("/push/:channel", utils.rateLimit({ max: 25, keyGenerator: (req) => req.user._id }), model.push);
 
 router.post("/logout", model.logOut);
 

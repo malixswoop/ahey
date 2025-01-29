@@ -4,7 +4,7 @@ const crypto = require("crypto");
 const { URL } = require("url");
 
 const config = require("./config");
-const { Users } = require("./schema").getInstance();
+const { Users, Devices } = require("./schema").getInstance();
 
 /**
  * Returns the username if valid else throws an error using httpError function
@@ -260,6 +260,15 @@ const getUserByEmail = async (email) => {
 };
 
 /**
+ * A database helper function to fetch device by id
+ * @param  {string} deviceId - Deivce id
+ * @return {Promise<User>} A promise which resolves to device object
+ */
+const getDeviceByDeviceId = async (deviceId) => {
+	return await Devices.findOne({ _id: deviceId }).exec();
+};
+
+/**
  * Throws a error which can be usernamed and changed to HTTP Error in the Express js Error handling middleware.
  * @param  {number} code - HTTP error code
  * @param  {[type]} message - HTTP error message
@@ -337,6 +346,7 @@ module.exports = {
 	isNewUsername,
 	isNewEmail,
 	getUserByEmail,
+	getDeviceByDeviceId,
 	sanitizeText,
 	hashString,
 	getValidPassword,

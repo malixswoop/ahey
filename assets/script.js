@@ -62,10 +62,9 @@ const defaultState = function () {
 		channelSubscribersCount: 0,
 		channels: [],
 		pushBody: "",
+		channelName: "",
 		myAccount: {},
 		query,
-		showSearch: !!query,
-		showAdd: false,
 		showLoadMore: false,
 		urlState: searchParams.get("state"),
 	};
@@ -174,9 +173,13 @@ const App = Vue.createApp({
 			}
 		},
 		getDevice() {
-			axios.get("/api/device").then((response) => {
-				console.log(response);
-			});
+			this.isLoading = true;
+			axios
+				.get("/api/device")
+				.then((response) => {
+					this.channels = response.data.device.subscribedChannels;
+				})
+				.finally(() => (this.isLoading = false));
 		},
 		push(channel, body) {
 			axios.post(`/api/push/${channel}`, { body }).then((response) => {
@@ -283,6 +286,9 @@ const App = Vue.createApp({
 			axios.post("/api/error", { error }).then(() => {});
 			return true;
 		},
+		init() {
+			this.getDevice();
+		},
 	},
 }).mount("#app");
 
@@ -314,4 +320,5 @@ window.onerror = App.logError;
 		}
 	);
 	initServiceWorker();
+	App.init();
 })();

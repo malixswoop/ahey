@@ -139,9 +139,6 @@ button.link.icon:hover svg path {
 nav {
 	margin-top: 1rem;
 }
-nav .separator {
-	margin: 0px 0.25rem;
-}
 nav a {
 	font-size: 0.9rem;
 	color: var(--text);
@@ -187,6 +184,9 @@ article pre {
 }
 .center {
 	text-align: center;
+}
+.separator {
+	margin: 0px 0.25rem;
 }
 .flex {
 	display: flex;
@@ -328,8 +328,16 @@ article pre {
 #pushBox {
 	border: none;
 	max-width: none;
-	font-size: 1.5rem;
+	font-size: 1.4rem;
+	padding: 0.75rem 1rem;
 	background: var(--background-grey);
+}
+#channelBox {
+	border: none;
+	padding: 0px;
+	margin: 0px;
+	outline: none;
+	width: 36ch;
 }
 .loader {
 	width: 2rem;
