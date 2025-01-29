@@ -203,15 +203,15 @@ const updateDevice = async (req, res, next) => {
 	try {
 		let device = req.session.device;
 		const credentials = req.body.credentials;
-		const userAgent = req.get("user-agent");
-		const date = new Date();
 
 		// Test if the credentials are valid
-		if (!utils.sendWebPush(credentials, config.TEST_PUSH_PAYLOAD)) {
-			return utils.httpError(400, "Invalid push credentials");
-		}
+		const isValidPushCredentials = await utils.sendWebPush(credentials, config.TEST_PUSH_PAYLOAD);
+		if (!isValidPushCredentials) return utils.httpError(400, "Invalid push credentials");
+
+		const date = new Date();
 
 		if (!device) {
+			const userAgent = req.get("user-agent");
 			const newDevice = await new Devices({
 				pushCredentials: credentials,
 				userAgent,
@@ -223,7 +223,7 @@ const updateDevice = async (req, res, next) => {
 			req.session.device = device.toString();
 		}
 
-		await Devices.updateOne({ _id: device }, { pushCredentials: credentials, lastUpdatedOn: new Date() });
+		await Devices.updateOne({ _id: device }, { pushCredentials: credentials, lastUpdatedOn: date });
 
 		res.json({ message: "Push credentials updated" });
 	} catch (error) {
