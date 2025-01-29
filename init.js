@@ -30,7 +30,7 @@ app.use("/api", apiRoutes);
 // Handle web view requests
 app.get("/", (req, res) => res.render(req.user ? "account" : "intro", getViewProps(req)));
 app.get(Object.keys(config.VIEW_CONFIG), (req, res, next) => {
-	if (req.user && ["/signup", "/login"].includes(req.path)) res.redirect("/");
+	if (req.user && ["/signup", "/login"].includes(req.path)) return res.redirect("/");
 	res.render(req.path.substring(1), getViewProps(req, `${config.VIEW_CONFIG[req.path]} - Ahey`));
 });
 app.get("/:channel", (req, res) =>
