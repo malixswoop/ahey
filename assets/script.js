@@ -60,6 +60,7 @@ const defaultState = function () {
 		me: { username: "", email: "", password: "", savedChannels: [] },
 		pushes: [],
 		channelSubscribersCount: 0,
+		deviceInfo: {},
 		channels: [],
 		pushBody: "",
 		channelName: "",
@@ -75,8 +76,8 @@ const App = Vue.createApp({
 		return defaultState();
 	},
 	computed: {
-		isloggedIn() {
-			return !!this.username;
+		pushEnabled() {
+			return this.deviceInfo !== null;
 		},
 	},
 	methods: {
@@ -159,8 +160,7 @@ const App = Vue.createApp({
 						});
 						const credentials = JSON.parse(JSON.stringify(pushSubscription));
 						await axios.post("/api/device", { credentials });
-						window.localStorage.pushSubscribed = true;
-						this.pushSubscribed = true;
+						this.getDevice();
 					}
 					return true;
 				} catch (err) {
@@ -177,7 +177,8 @@ const App = Vue.createApp({
 			axios
 				.get("/api/device")
 				.then((response) => {
-					this.channels = response.data.device.subscribedChannels;
+					this.deviceInfo = response.data.device;
+					this.channels = response.data.device?.subscribedChannels;
 				})
 				.finally(() => (this.isLoading = false));
 		},

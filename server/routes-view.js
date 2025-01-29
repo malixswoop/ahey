@@ -31,7 +31,6 @@ router.get("/login", async (req, res) => {
 });
 
 router.get("/channels", async (req, res) => {
-	if (!req.user) res.redirect(`/login?state=${req.path}`);
 	res.render("channels", getViewProps(req, "Channels - Ahey"));
 });
 
