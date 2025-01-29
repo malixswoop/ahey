@@ -10,28 +10,12 @@ Ahey.io is a simple pub-sub system over web push. It allows users to subscribe t
 - Messages stored for 24 hours.
 - Open-source and free to use.
 
-## Installation
+### Channel Types
 
-Clone the repository:
+Ahey.io supports two types of channels:
 
-```bash
-git clone https://github.com/vasanthv/ahey.git
-cd ahey
-```
-
-Install dependencies (if applicable):
-
-```bash
-npm install
-```
-
-Run the service (you may need to adjust for your environment):
-
-```bash
-npm start
-```
-
-to start the development server on port 3000. Your Ahey instance will be running on http://localhost:3000.
+1. **Regular Channels**: Any authenticated user can publish messages to these channels.
+2. **User Channels**: These are personal channels in the format `@username`. Only the user who created the channel can publish to it, but anyone can subscribe.
 
 ## API Documentation
 
@@ -120,12 +104,28 @@ To interact with the API and publish to a channel, you must log in and obtain an
       -H "X-API-KEY: your-api-key"
   ```
 
-## Channel Types
+## Local development
 
-Ahey.io supports two types of channels:
+Clone the repository:
 
-1. **Regular Channels**: Any authenticated user can publish messages to these channels.
-2. **User Channels**: These are personal channels in the format `@username`. Only the user who created the channel can publish to it, but anyone can subscribe.
+```bash
+git clone https://github.com/vasanthv/ahey.git
+cd ahey
+```
+
+Install dependencies (if applicable):
+
+```bash
+npm install
+```
+
+Run the service (you may need to adjust for your environment):
+
+```bash
+npm start
+```
+
+to start the development server on port 3000. Your Ahey instance will be running on http://localhost:3000.
 
 ## Contributing
 

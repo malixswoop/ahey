@@ -13,31 +13,29 @@
 				<a
 					href="javascript:void(0)"
 					v-on:click="saveChannel('<%=channel%>')"
-					v-if="!me.savedChannels.includes('<%=channel%>')"
+					v-if="!me?.savedChannels?.includes('<%=channel%>')"
+					>Save</a
 				>
-					Save
-				</a>
 				<a
 					href="javascript:void(0)"
 					v-on:click="unsaveChannel('<%=channel%>')"
-					v-if="me.savedChannels.includes('<%=channel%>')"
+					v-if="me?.savedChannels?.includes('<%=channel%>')"
 					class="red"
+					>Unsave</a
 				>
-					Unsave
-				</a>
 				<span class="separator">&middot;</span>
 				<% } %>
 
 				<a
 					href="javascript:void(0)"
 					v-on:click="subscribeChannel('<%=channel%>')"
-					v-if="!channels.includes('<%=channel%>')"
+					v-if="!channels?.includes('<%=channel%>')"
 					>Subscribe</a
 				>
 				<a
 					href="javascript:void(0)"
 					v-on:click="unsubscribeChannel('<%=channel%>')"
-					v-if="channels.includes('<%=channel%>')"
+					v-if="channels?.includes('<%=channel%>')"
 					class="red"
 					>Unsubscribe</a
 				>
