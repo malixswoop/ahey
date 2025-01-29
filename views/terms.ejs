@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+	<%- include('partials/html-head'); -%>
+	<body>
+		<div id="app" class="wrap">
+			<%- include('partials/header'); -%>
+			<h1 class="page-title">Terms of service</h1>
+
+			<section>
+				<p>
+					By using Ahey.io (referred to as "we", "our", "us"), you agree to the following Terms of Service. If you do
+					not agree with these terms, please refrain from using our services.
+				</p>
+
+				<h2>1. Use of Service</h2>
+				<p>
+					Ahey.io provides a pub-sub system over web push, allowing users to subscribe to channels and publish messages.
+					You must create an account to publish messages to your personal channel.
+				</p>
+
+				<h2>2. Account Responsibility</h2>
+				<p>
+					You are responsible for maintaining the confidentiality of your account credentials (username, email, and
+					password). You agree to notify us immediately if you believe your account has been compromised.
+				</p>
+
+				<h2>3. Rate Limiting</h2>
+				<p>
+					Publishing is rate-limited to <strong>25 messages every 5 minutes</strong>. This is to ensure fair usage and
+					prevent spam.
+				</p>
+
+				<h2>4. Content Restrictions</h2>
+				<p>
+					You are solely responsible for the content you publish on your channel. By using Ahey.io, you agree not to
+					post any content that is unlawful, harmful, or violates any third-party rights.
+				</p>
+
+				<h2>5. Message Retention</h2>
+				<p>Messages published to Ahey.io are stored for a period of <strong>24 hours</strong> before being deleted.</p>
+
+				<h2>6. API Usage</h2>
+				<p>
+					Ahey.io provides public APIs for interacting with the service. You are responsible for ensuring that any usage
+					of our APIs complies with these terms. Excessive use may result in rate limiting or suspension of your API
+					access.
+				</p>
+
+				<h2>7. Open-Source and Modifications</h2>
+				<p>
+					Ahey.io is open-source. You are free to view, modify, and distribute the code, but you must comply with the
+					open-source license terms associated with it.
+				</p>
+
+				<h2>8. Limitation of Liability</h2>
+				<p>
+					Ahey.io is provided “as is.” We do not warrant that the service will be error-free or uninterrupted. In no
+					event will we be liable for any indirect, incidental, or consequential damages arising from your use of the
+					service.
+				</p>
+
+				<h2>9. Privacy</h2>
+				<p>
+					Your privacy is important to us. Please review our <a href="/privacy">Privacy Policy</a> for information on
+					how we handle your data.
+				</p>
+
+				<h2>10. Termination</h2>
+				<p>
+					We may suspend or terminate your access to Ahey.io at any time, without notice, if we believe you have
+					violated these Terms of Service.
+				</p>
+
+				<h2>11. Changes to the Terms</h2>
+				<p>
+					We reserve the right to modify these Terms of Service at any time. Changes will be posted on this page, and by
+					continuing to use the service, you agree to the updated terms.
+				</p>
+
+				<h2>12. Contact Us</h2>
+				<p>
+					If you have any questions about these Terms of Service, please contact us at
+					<a href="mailto:hello@ahey.io">hello@ahey.io</a>.
+				</p>
+			</section>
+		</div>
+		<%- include('partials/footer'); -%>
+	</body>
+</html>

@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+	<%- include('partials/html-head'); -%>
+	<body>
+		<div id="app" class="wrap">
+			<%- include('partials/header'); -%>
+			<h1 class="page-title">Frequently asked questions</h1>
+
+			<section>
+				<div class="faq">
+					<h2>What is Ahey?</h2>
+					<p>
+						Ahey.io is a simple pub-sub system over web push, where users can subscribe to channels and receive messages
+						without the need for an account. Publishers must create an account to send messages to their channels.
+					</p>
+
+					<h2>Who can subscribe to a channel?</h2>
+					<p>
+						Anyone with a browser can subscribe to a channel. No user account is needed for subscribing to any channel.
+						Supports all major browsers.
+					</p>
+
+					<h2>Who can publish to a channel?</h2>
+					<p>Ahey.io has two types of channels:</p>
+					<p><strong>Regular channels:</strong> Any authenticated user can publish to these channels.</p>
+					<p>
+						<strong>User channels:</strong> These channels are in the format <code>@username</code>, and only the user
+						who created the user account can publish to it.
+					</p>
+
+					<h2>How can I publish to a channel?</h2>
+					<p>
+						You can publish to a channel either through the web UI or by making an HTTP POST request from any script or
+						server.
+					</p>
+
+					<h2>How can I authenticate my API request?</h2>
+					<p>
+						You can authenticate your API requests by using an API-KEY, which you can obtain once you log in to your
+						account.
+					</p>
+
+					<h2>How long are my messages stored?</h2>
+					<p>Your messages are stored for a period of 24 hours before being deleted.</p>
+
+					<h2>Is it open-source?</h2>
+					<p>
+						Yes, Ahey.io is open-source! You can view the source code on GitHub:
+						<a href="https://github.com/vasanthv/ahey" target="_blank">https://github.com/vasanthv/ahey</a>.
+					</p>
+				</div>
+			</section>
+		</div>
+		<%- include('partials/footer'); -%>
+	</body>
+</html>
