@@ -14,10 +14,10 @@
 			<section class="box">
 				<div class="box-title">Saved channels</div>
 				<div class="box-inner">
-					<div v-if="me.savedChannels.length <= 1" class="small light">You do not have any saved channels yet.</div>
+					<div v-if="me.savedChannels.length < 1" class="small light">You do not have any saved channels yet.</div>
 					<div v-for="(channel, i) in (me.savedChannels ?? [])" v-bind:key="channel" class="item">
 						<div class="row">
-							<span>{{channel}}</span>
+							<a v-bind:href="'/'+channel" class="title">/{{channel}}</a>
 							<span> &middot; </span>
 							<a href="javascript:void(0)" v-on:click="unsaveChannel(channel)">Unsave</a>
 						</div>

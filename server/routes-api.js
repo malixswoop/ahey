@@ -38,8 +38,8 @@ router.use(utils.isUserAuthed);
 
 router.get("/me", model.me);
 router.put("/account", model.updateAccount);
-router.put("/channels/save", model.saveChannel);
-router.put("/channels/unsave", model.unsaveChannel);
+router.post("/channels/save", model.saveChannel);
+router.post("/channels/unsave", model.unsaveChannel);
 
 router.post("/key", model.newApiKey);
 router.delete("/key/:key", model.deleteApiKey);

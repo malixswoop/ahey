@@ -9,6 +9,25 @@
 				<span>{{channelSubscribersCount}} subscriber{{channelSubscribersCount === 1 ? '' : 's'}}</span>
 				<span class="separator">&middot;</span>
 
+				<% if(typeof user !== "undefined") { %>
+				<a
+					href="javascript:void(0)"
+					v-on:click="saveChannel('<%=channel%>')"
+					v-if="!me.savedChannels.includes('<%=channel%>')"
+				>
+					Save
+				</a>
+				<a
+					href="javascript:void(0)"
+					v-on:click="unsaveChannel('<%=channel%>')"
+					v-if="me.savedChannels.includes('<%=channel%>')"
+					class="red"
+				>
+					Unsave
+				</a>
+				<span class="separator">&middot;</span>
+				<% } %>
+
 				<a
 					href="javascript:void(0)"
 					v-on:click="subscribeChannel('<%=channel%>')"

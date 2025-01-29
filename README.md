@@ -31,6 +31,8 @@ Run the service (you may need to adjust for your environment):
 npm start
 ```
 
+to start the development server on port 3000. Your Ahey instance will be running on http://localhost:3000.
+
 ## API Documentation
 
 ### Authentication
@@ -43,6 +45,7 @@ To interact with the API and publish to a channel, you must log in and obtain an
 
 - **Method:** `GET`
 - **Description:** Returns details of the currently authenticated user.
+- **Authentication**: Requires an API key passed in the X-API-KEY header.
 - **Response Example:**
 
   ```json
@@ -54,11 +57,16 @@ To interact with the API and publish to a channel, you must log in and obtain an
   }
   ```
 
+  ```bash
+  curl -X GET "https://ahey.io/api/me" \
+      -H "X-API-KEY: your-api-key"
+  ```
+
 #### 2. `/push/:channel` - Send a push notification to a channel
 
 - **Method:** `POST`
 - **Description:** Sends a push notification to a specific channel.
-- **Authentication:** Requires an API key.
+- **Authentication**: Requires an API key passed in the X-API-KEY header.
 - **URL Format:** `/push/:channel` where `:channel` is the channel name.
 - **Body Example:**
 
@@ -76,10 +84,18 @@ To interact with the API and publish to a channel, you must log in and obtain an
   }
   ```
 
+  ```bash
+  curl -X POST "https://ahey.io/api/push/channel-name" \
+      -H "X-API-KEY: your-api-key" \
+      -H "Content-Type: application/json" \
+      -d '{"body": "Your push content"}'
+  ```
+
 #### 3. `/pull/:channel` - Retrieve the latest pushes from a channel
 
 - **Method:** `GET`
 - **Description:** Retrieves the latest 50 messages from a specific channel.
+- **Authentication**: Requires an API key passed in the X-API-KEY header.
 - **Query Parameter:**
   - `skip` (optional) - Skips the first `n` messages in the channel (useful for pagination).
 - **URL Format:** `/pull/:channel` where `:channel` is the channel name.
@@ -97,6 +113,11 @@ To interact with the API and publish to a channel, you must log in and obtain an
   	],
   	"subscribers": 10
   }
+  ```
+
+  ```bash
+  curl -X GET "https://ahey.io/api/pull/channel-name?skip=0" \
+      -H "X-API-KEY: your-api-key"
   ```
 
 ## Channel Types

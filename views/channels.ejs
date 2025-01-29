@@ -23,7 +23,7 @@
 			<section>
 				<div v-for="(channel, i) in channels" v-bind:key="channel" class="item">
 					<div class="row">
-						<a v-bind:href="'/'+channel" class="title" rel="noopener noreferrer">/{{channel}}</a>
+						<a v-bind:href="'/'+channel" class="title">/{{channel}}</a>
 						<span class="meta light">
 							<span> &middot; </span>
 							<a href="javascript:void(0)" v-on:click="unsubscribeChannel(channel)" class="red">Unsubscribe</a>

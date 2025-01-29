@@ -207,11 +207,13 @@ const App = Vue.createApp({
 		saveChannel(channel) {
 			axios.post("/api/channels/save", { channel }).then((response) => {
 				this.setToast(response.data.message, "success");
+				this.getMe();
 			});
 		},
 		unsaveChannel(channel) {
 			axios.post("/api/channels/unsave", { channel }).then((response) => {
 				this.setToast(response.data.message, "success");
+				this.getMe();
 			});
 		},
 		subscribeChannel(channel) {
@@ -290,6 +292,9 @@ const App = Vue.createApp({
 		},
 		init() {
 			this.getDevice();
+			if (this.username) {
+				this.getMe();
+			}
 		},
 	},
 }).mount("#app");
