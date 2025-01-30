@@ -11,6 +11,10 @@ self.addEventListener("install", function (e) {
 		"/style.css",
 		"/vue.global.prod.js",
 		"/axios.min.js",
+		"/linkify.min.js",
+		"/linkify-html.min.js",
+		"/linkify-plugin-mention.min.js",
+		"/linkify-plugin-hashtag.min.js",
 		"/script.js",
 		"/favicon.svg",
 	];
