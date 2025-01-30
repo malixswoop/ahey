@@ -290,11 +290,11 @@ const httpError = (code, message) => {
  * @param  {string} url - URL to be attached to the push notification
  * @return {} Payload of the webpush
  */
-const getWebPushPayload = (user, body, channel, url = "") => {
+const getWebPushPayload = (user, body, channel, url) => {
 	const payload = JSON.stringify({
 		title: `@${user.username} pushed on /${channel}`,
 		body,
-		url: url ?? `${config.URL}/${channel}`,
+		url: url ?? `${config.URL}${channel}`,
 	});
 	return payload;
 };
