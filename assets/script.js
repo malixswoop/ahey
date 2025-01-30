@@ -177,8 +177,8 @@ const App = Vue.createApp({
 
 					// Update the push credentials in server if its more than a day old
 					if (
-						response.data.device.lastUpdatedOn &&
-						(new Date(response.data.device.lastUpdatedOn) - new Date()) / 1000 > 86400
+						response.data.device?.lastUpdatedOn &&
+						(new Date(response.data.device?.lastUpdatedOn) - new Date()) / 1000 > 86400
 					) {
 						this.subscribeToPush();
 					}
