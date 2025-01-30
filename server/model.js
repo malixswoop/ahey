@@ -253,7 +253,8 @@ const subscribeChannel = async (req, res, next) => {
 		if (!device) return utils.httpError(400, "Invalid device");
 
 		const detailDetails = await utils.getDeviceByDeviceId(device);
-		if (!detailDetails) return utils.httpError(400, "Invalid device");
+		if (!detailDetails)
+			return utils.httpError(400, "Please enable push notifications on channel pages before subscribing.");
 
 		if (detailDetails.subscribedChannels.includes(channel)) return utils.httpError(400, "Already subscribed");
 		await Devices.updateOne({ _id: device }, { $push: { subscribedChannels: channel }, lastUpdatedOn: new Date() });
