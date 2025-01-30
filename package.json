@@ -1,6 +1,6 @@
 {
 	"name": "ahey",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"description": "A simple pub-sub over web push",
 	"main": "init.js",
 	"scripts": {

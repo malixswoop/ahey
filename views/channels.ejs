@@ -7,41 +7,44 @@
 			<h1 class="page-title flex-1">Channels</h1>
 			<p>List of all the channels subscribed from this browser / device.</p>
 
-			<section v-if="!pushEnabled">
-				<button v-on:click="subscribeToPush">Enable push notifications</button>
-			</section>
-
-			<div v-if="pushEnabled">
-				<section class="flex">
-					<input
-						type="text"
-						class="flex-1"
-						id="channelBox"
-						v-model="channelName"
-						placeholder="Channel name"
-						v-on:keyup.enter="subscribeChannel(channelName)"
-					/>
-
-					<button v-on:click="subscribeChannel(channelName)">Subscribe</button>
+			<div v-if="!isLoading">
+				<section v-if="!pushEnabled">
+					<button v-on:click="subscribeToPush">Enable push notifications</button>
 				</section>
 
-				<section>
-					<div v-for="(channel, i) in channels" v-bind:key="channel" class="item">
-						<div class="row">
-							<a v-bind:href="'/'+channel" class="title">/{{channel}}</a>
-							<span class="meta light">
-								<span> &middot; </span>
-								<a href="javascript:void(0)" v-on:click="unsubscribeChannel(channel)" class="red">Unsubscribe</a>
-							</span>
+				<div v-if="pushEnabled">
+					<section class="flex">
+						<input
+							type="text"
+							class="flex-1"
+							id="channelBox"
+							v-model="channelName"
+							placeholder="Channel name"
+							v-on:keyup.enter="subscribeChannel(channelName)"
+						/>
+
+						<button v-on:click="subscribeChannel(channelName)">Subscribe</button>
+					</section>
+
+					<section>
+						<div v-for="(channel, i) in channels" v-bind:key="channel" class="item">
+							<div class="row">
+								<a v-bind:href="'/'+channel" class="title">/{{channel}}</a>
+								<span class="meta light">
+									<span> &middot; </span>
+									<a href="javascript:void(0)" v-on:click="unsubscribeChannel(channel)" class="red">Unsubscribe</a>
+								</span>
+							</div>
 						</div>
-					</div>
-					<div v-if="isLoading" class="loader"></div>
-				</section>
+						<div v-if="isLoading" class="loader"></div>
+					</section>
 
-				<section v-if="channels.length === 0 && !isLoading">
-					<p class="empty">You are not subscribed to any channels</p>
-				</section>
+					<section v-if="channels.length === 0 && !isLoading">
+						<p class="empty">You are not subscribed to any channels</p>
+					</section>
+				</div>
 			</div>
+			<div v-if="isLoading" class="loader"></div>
 			<%- include('partials/footer'); -%>
 		</div>
 	</body>
