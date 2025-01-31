@@ -104,8 +104,6 @@ To interact with the API and publish to a channel, you must log in and obtain an
       -H "X-API-KEY: your-api-key"
   ```
 
-  Sure! Here's the updated local development section in markdown format:
-
 ## Local Development
 
 To get started with Ahey locally, follow these steps:
